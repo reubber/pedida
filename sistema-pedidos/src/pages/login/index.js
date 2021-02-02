@@ -50,31 +50,43 @@ function facebookLogin () {
 //   })
 // }
 
-function Login () {
-  return (
-    <Container>
-      <Grid container justify='center' alignItems='center' spacing={5}>
-        <Grid>
-          <Logo />
-        </Grid>
+class Login extends React.PureComponent {
+  componentDidMount () {
+    // evento que executa quando estado de login for alterado
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log('usuário logado', user)
+      } else {
+        console.log('usuario não está logado', user)
+      }
+    })
+  }
 
-        <Grid item xs={12} container justify='center'>
-          <GitHubButton onClick={facebookLogin}>
-            Entrar com Facebook
-          </GitHubButton>
+  render () {
+    return (
+      <Container>
+        <Grid container justify='center' alignItems='center' spacing={5}>
+          <Grid>
+            <Logo />
+          </Grid>
+
+          <Grid item xs={12} container justify='center'>
+            <FacebookButton onClick={facebookLogin}>
+              Entrar com Facebook
+            </FacebookButton>
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
-  )
+      </Container>
+    )
+  }
 }
-
 const Container = styled.div`
   padding: 20px;
 `
 const Logo = styled(MainLogo)`
   width: 100%;
 `
-const GitHubButton = styled(Button).attrs({
+const FacebookButton = styled(Button).attrs({
   variant: 'contained',
   fullWidth: true
 })`
