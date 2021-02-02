@@ -19,50 +19,68 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config)
 }
 
-function facebookLogin () {
-  const provider = new firebase.auth.FacebookAuthProvider()
-  firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then((result) => {
-      const user = result.user
-      console.log(user)
-    })
-    .catch((error) => {
-    // Handle Errors here.
-      const errorCode = error.code
-      const errorMessage = error.message
-      // The email of the user's account used.
-      const email = error.email
-      // The firebase.auth.AuthCredential type that was used.
-      const credential = error.credential
-      console.log('error:', errorCode, errorMessage, email, credential)
-    // ...
-    })
-}
-
-// function signOut () {
-//   firebase.auth().signOut().then(() => {
-//     // Sign-out successful.
-//   }).catch((error) => {
-//     console.log(error)
-//     // An error happened.
-//   })
-// }
-
 class Login extends React.PureComponent {
+  state = {
+    isUserLoggedIn: false,
+    user: null
+  }
+
   componentDidMount () {
     // evento que executa quando estado de login for alterado
     firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.log('usuário logado', user)
-      } else {
-        console.log('usuario não está logado', user)
-      }
+      this.setState({
+        isUserLoggedIn: !!user,
+        user
+      })
+    // * mesmo codigo que o de cima ^l *
+    //   if (user) {
+    //     console.log('usuário logado', user)
+    //     this.setState({ isUserLoggedIn: true, user })
+    //   } else {
+    //     console.log('usuario não está logado', user)
+    //     this.setState({ isUserLoggedIn: false, user: null })
+    //   }
+    // })
+    })
+  }
+
+  handleFacebookLogin () {
+    const provider = new firebase.auth.FacebookAuthProvider()
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        const user = result.user
+        console.log(user)
+      })
+      .catch((error) => {
+      // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
+        // The email of the user's account used.
+        const email = error.email
+        // The firebase.auth.AuthCredential type that was used.
+        const credential = error.credential
+        console.log('error:', errorCode, errorMessage, email, credential)
+      // ...
+      })
+  }
+
+  handleLogout = () => {
+    firebase.auth().signOut().then(() => {
+      window.alert('Desconectado com sucesso')
+      this.setState({
+        isUserLoggedIn: false,
+        user: null
+      })
+    }).catch((error) => {
+      console.log(error)
+      // An error happened.
     })
   }
 
   render () {
+    const { isUserLoggedIn, user } = this.state
     return (
       <Container>
         <Grid container justify='center' alignItems='center' spacing={5}>
@@ -71,9 +89,19 @@ class Login extends React.PureComponent {
           </Grid>
 
           <Grid item xs={12} container justify='center'>
-            <FacebookButton onClick={facebookLogin}>
-              Entrar com Facebook
-            </FacebookButton>
+            {isUserLoggedIn && (
+              <>
+                <pre>{`Olá, ${user.displayName}! `}</pre>
+                <Button variant='contained' onClick={this.handleLogout} color='secondary'>
+                  Sair
+                </Button>
+              </>
+            )}
+            {!isUserLoggedIn && (
+              <FacebookButton onClick={this.handleFacebookLogin}>
+                Entrar com Facebook
+              </FacebookButton>
+            )}
           </Grid>
         </Grid>
       </Container>
@@ -88,7 +116,8 @@ const Logo = styled(MainLogo)`
 `
 const FacebookButton = styled(Button).attrs({
   variant: 'contained',
-  fullWidth: true
+  fullWidth: true,
+  color: 'primary'
 })`
   && {
     font-size: 25px;
