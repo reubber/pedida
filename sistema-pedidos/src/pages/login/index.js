@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -38,28 +38,6 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config)
 }
 
-const handleFacebookLogin = () => {
-  const provider = new firebase.auth.FacebookAuthProvider()
-  firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then((result) => {
-      const user = result.user
-      console.log(user)
-    })
-    .catch((error) => {
-    // Handle Errors here.
-      const errorCode = error.code
-      const errorMessage = error.message
-      // The email of the user's account used.
-      const email = error.email
-      // The firebase.auth.AuthCredential type that was used.
-      const credential = error.credential
-      console.log('error:', errorCode, errorMessage, email, credential)
-    // ...
-    })
-}
-
 function Login () {
   const [userInfo, setUserInfo] = useState({
     isUserLoggedIn: false,
@@ -91,7 +69,29 @@ function Login () {
     }
   }, [])
 
-  const handleLogout = () => {
+  const handleFacebookLogin = useCallback(() => {
+    const provider = new firebase.auth.FacebookAuthProvider()
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        const user = result.user
+        console.log(user)
+      })
+      .catch((error) => {
+      // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
+        // The email of the user's account used.
+        const email = error.email
+        // The firebase.auth.AuthCredential type that was used.
+        const credential = error.credential
+        console.log('error:', errorCode, errorMessage, email, credential)
+      // ...
+      })
+  }, [])
+
+  const handleLogout = useCallback(() => {
     firebase.auth().signOut().then(() => {
       window.alert('Desconectado com sucesso')
       setUserInfo({
@@ -102,7 +102,7 @@ function Login () {
       console.log(error)
       // An error happened.
     })
-  }
+  }, [])
 
   return (
     <Container>
