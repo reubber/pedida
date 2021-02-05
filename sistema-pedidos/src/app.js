@@ -1,4 +1,4 @@
-import React, { createContext, lazy, Suspense } from 'react'
+import React, { useState, createContext, lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { CssBaseline, LinearProgress } from '@material-ui/core'
 
@@ -7,23 +7,30 @@ const Login = lazy(() => import('pages/login'))
 
 export const ColorContext = createContext()
 
-const app = () => (
+function App () {
+  const [color, setColor] = useState('black')
 
-  <>
-    <ColorContext.Provider value='black'>
-      <CssBaseline />
+  return (
 
-      <BrowserRouter>
-        <Suspense fallback={<LinearProgress />}>
-          <Switch>
-            <Route path='/login' component={Login} />
-            <Route component={MainPage} />
-          </Switch>
-        </Suspense>
-      </BrowserRouter>
-    </ColorContext.Provider>
-  </>
+    <>
+      <ColorContext.Provider value={{
+        color,
+        setColor
+      }}
+      >
+        <CssBaseline />
 
-)
+        <BrowserRouter>
+          <Suspense fallback={<LinearProgress />}>
+            <Switch>
+              <Route path='/login' component={Login} />
+              <Route component={MainPage} />
+            </Switch>
+          </Suspense>
+        </BrowserRouter>
+      </ColorContext.Provider>
+    </>
 
-export default app
+  )
+}
+export default App
