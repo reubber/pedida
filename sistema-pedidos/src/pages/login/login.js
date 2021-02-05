@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import firebase from 'services/firebase'
 import { Button, Grid } from '@material-ui/core'
 import { ReactComponent as MainLogo } from './logopedida.svg'
-
-import { ColorContext } from 'app'
 
 const Container = styled.div`
   padding: 20px;
@@ -34,7 +32,6 @@ function Login () {
   })
 
   const { isUserLoggedIn, user } = userInfo
-  const { color, setColor } = useContext(ColorContext)
 
   useEffect(() => {
     // evento que executa quando estado de login for alterado
@@ -114,9 +111,8 @@ function Login () {
 
             <>
               <FacebookButton onClick={handleFacebookLogin}>
-                Entrar com Facebook ({color})
+                Entrar com Facebook
               </FacebookButton>
-              <button onClick={() => setColor('blue')}>Cor azul</button>
             </>
 
           )}
