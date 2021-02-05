@@ -2,13 +2,17 @@ import React, { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import firebase from 'services/firebase'
 import { Button, Grid } from '@material-ui/core'
-import { ReactComponent as MainLogo } from './logo-react-zzaria.svg'
+import { ReactComponent as MainLogo } from './logopedida.svg'
+
+import { ColorContext } from 'app'
 
 const Container = styled.div`
   padding: 20px;
+  background-color: black;
 `
 const Logo = styled(MainLogo)`
   width: 100%;
+  z-index: 100;
 `
 const FacebookButton = styled(Button).attrs({
   variant: 'contained',
@@ -106,10 +110,16 @@ function Login () {
             </>
           )}
           {!isUserLoggedIn && (
-            <FacebookButton onClick={handleFacebookLogin}>
-              Entrar com Facebook
-            </FacebookButton>
+            <ColorContext.Consumer>
+              {(color) => (
+                <FacebookButton onClick={handleFacebookLogin}>
+                  Entrar com Facebook ({color})
+                </FacebookButton>
+
+              )}
+            </ColorContext.Consumer>
           )}
+
         </Grid>
       </Grid>
     </Container>
