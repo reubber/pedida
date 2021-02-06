@@ -1,7 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useContext, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
-import firebase from 'services/firebase'
+
 import { Button, Grid } from '@material-ui/core'
+import { AuthContext } from 'contexts/auth'
+import firebase from 'services/firebase'
+
 import { ReactComponent as MainLogo } from './logopedida.svg'
 
 const Container = styled.div`
@@ -26,6 +29,8 @@ const FacebookButton = styled(Button).attrs({
 `
 
 function Login () {
+  const { handleFacebookLogin } = useContext(AuthContext)
+
   const [userInfo, setUserInfo] = useState({
     isUserLoggedIn: false,
     user: null
@@ -54,28 +59,6 @@ function Login () {
     return () => {
       // unmount
     }
-  }, [])
-
-  const handleFacebookLogin = useCallback(() => {
-    const provider = new firebase.auth.FacebookAuthProvider()
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then((result) => {
-        const user = result.user
-        console.log(user)
-      })
-      .catch((error) => {
-      // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
-        // The email of the user's account used.
-        const email = error.email
-        // The firebase.auth.AuthCredential type that was used.
-        const credential = error.credential
-        console.log('error:', errorCode, errorMessage, email, credential)
-      // ...
-      })
   }, [])
 
   const handleLogout = useCallback(() => {
