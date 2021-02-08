@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button, Grid } from '@material-ui/core'
 import { AuthContext } from 'contexts/auth'
 
-import { ReactComponent as MainLogo } from './logopedida.svg'
+import { ReactComponent as MainLogo } from 'images/logopedida.svg'
 
 const Container = styled.div`
   padding: 20px;
