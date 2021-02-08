@@ -37,24 +37,15 @@ function App ({ location }) {
   }
 
   console.log('ja checou se o usuario esta logado ou nao')
-  if (isUserLoggedIn) {
-    console.log('esta logado!')
-    if (location.pathname === '/login') {
-      console.log('usuário está logado E está na página de login. redirecionar HOME')
-      return <Redirect to='/' />
-    } else {
-      console.log('usuario está logado Mas nao esta na pagina de login')
-    }
-  } else {
-    console.log('user nao está logado')
-    if (location.pathname !== '/login') {
-      console.log(`usuario nao está logado nem esta na pagina de login
-      redirecionar para /login`)
-      return <Redirect to='/login' />
-    } else {
-      console.log('usuario nao está logado e esta na pagina de login')
-    }
+
+  if (isUserLoggedIn && location.pathname === '/login') {
+    return <Redirect to='/' />
   }
+
+  if (!isUserLoggedIn && location.pathname !== '/login') {
+    return <Redirect to='/login' />
+  }
+
   return (
     <Suspense fallback={<LinearProgress />}>
       <Switch>
