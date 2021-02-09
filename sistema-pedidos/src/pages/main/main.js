@@ -9,14 +9,15 @@ import {
   Menu,
   MenuItem,
   Paper,
-  withStyles
+  withStyles,
+  Divider as MaterialDivider
 } from '@material-ui/core'
 import { AccountCircle } from '@material-ui/icons'
 import { ReactComponent as MainLogo } from 'images/logopedida.svg'
 import { AuthContext } from 'contexts/auth'
 
 const Content = styled.main`
-  padding: 20px;
+  padding: 40px;
 `
 
 const Logo = styled(MainLogo)`
@@ -33,11 +34,23 @@ const LogoContainer = styled.div`
     stroke: #000;
   }
 `
+const Divider = styled(MaterialDivider)`
+  margin: 20px 0;
+  width: 100%;
+`
 const Toolbar = styled(MaterialUiToolbar)`
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
 `
+
+const PaperPizza = styled(Paper)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+`
+
 const style = (theme) => {
   return {
     main: theme.mixins.toolbar
@@ -116,10 +129,10 @@ function Main () {
 
       <Content>
         <Grid container direction='column' alignItems='center'>
-          <Typography variant='h3'>
+          <Typography variant='h3' gutterBottom>
             o que vai ser hoje, {userName}?
           </Typography>
-          <Typography variant='h4'>
+          <Typography variant='h4' gutterBottom>
             Escolha o tamanho da pizza
           </Typography>
         </Grid>
@@ -127,11 +140,12 @@ function Main () {
         <Grid container spacing={10}>
           {PizzaSizes.map((pizza) => (
             <Grid item key={pizza.id} xs={4}>
-              <Paper style={{ padding: 20 }}>
+              <PaperPizza>
                 <div>{pizza.size}cm</div>
-                <Typography>{pizza.name}</Typography>
+                <Divider />
+                <Typography variant='h5'>{pizza.name}</Typography>
                 <Typography>{pizza.slices} fatias, {pizza.flavours} sabores</Typography>
-              </Paper>
+              </PaperPizza>
             </Grid>
           ))}
         </Grid>
