@@ -10,11 +10,15 @@ function Auth ({ children }) {
     user: null
   })
 
+  const [token, setToken] = useState('')
+
   const handleFacebookLogin = useCallback(() => {
     const provider = new firebase.auth.FacebookAuthProvider()
     firebase
       .auth()
-      .signInWithPopup(provider)
+      .signInWithPopup(provider).then(function (result) {
+        setToken(result.credential.accessToken)
+      })
   }, [])
 
   const logout = useCallback(() => {
@@ -35,7 +39,8 @@ function Auth ({ children }) {
       handleFacebookLogin,
       logout,
       userInfo,
-      setUserInfo
+      setUserInfo,
+      token
     }}
     >
       {children}
