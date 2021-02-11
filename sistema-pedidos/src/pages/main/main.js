@@ -16,6 +16,13 @@ import { AccountCircle } from '@material-ui/icons'
 import { ReactComponent as MainLogo } from 'images/logopedida.svg'
 import { AuthContext } from 'contexts/auth'
 
+const Title = styled(Typography).attrs({
+  gutterBottom: true,
+  align: 'center'
+})`
+
+`
+
 const Content = styled.main`
   padding: 40px;
 `
@@ -44,11 +51,19 @@ const Toolbar = styled(MaterialUiToolbar)`
   margin: 0 auto;
 `
 
+const PizzasGrid = styled(Grid).attrs({
+  container: true,
+  spacing: 5
+})`
+  padding: 20px;
+`
+
 const PaperPizza = styled(Paper)`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px 0;
+  min-width: 250px;
 `
 const Pizza = styled.div`
   display: flex;
@@ -170,17 +185,17 @@ function Main () {
 
       <Content>
         <Grid container direction='column' alignItems='center'>
-          <Typography variant='h3' gutterBottom>
+          <Title variant='h3'>
             o que vai ser hoje, {userName}?
-          </Typography>
-          <Typography variant='h4' gutterBottom>
+          </Title>
+          <Title variant='h4'>
             Escolha o tamanho da pizza
-          </Typography>
+          </Title>
         </Grid>
 
-        <Grid container spacing={5}>
+        <PizzasGrid container spacing={5}>
           {PizzaSizes.map((pizza) => (
-            <Grid item key={pizza.id} xs={4}>
+            <Grid item key={pizza.id} xs>
               <PaperPizza>
                 <Pizza>
                   <PizzaText>
@@ -193,7 +208,7 @@ function Main () {
               </PaperPizza>
             </Grid>
           ))}
-        </Grid>
+        </PizzasGrid>
       </Content>
     </>
   )
