@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import {
   AppBar,
+  Avatar,
   Grid,
   Toolbar as MaterialUiToolbar,
   IconButton,
@@ -12,7 +13,7 @@ import {
   withStyles,
   Divider as MaterialDivider
 } from '@material-ui/core'
-import { AccountCircle } from '@material-ui/icons'
+
 import { ReactComponent as MainLogo } from 'images/logopedida.svg'
 import { AuthContext } from 'contexts/auth'
 
@@ -145,8 +146,10 @@ const PizzaSizes = [
 
 function Main () {
   const [anchorElement, setAnchorElement] = useState(null)
-  const { userInfo, logout } = useContext(AuthContext)
+  const { userInfo, logout, token } = useContext(AuthContext)
   const userName = userInfo.user.displayName.split(' ')[0]
+  const a = userInfo.user.photoURL
+  const picture = `${a}?access_token=${token}`
 
   const handleOpenMenu = (e) => {
     setAnchorElement(e.target)
@@ -155,6 +158,8 @@ function Main () {
   const handleClose = () => {
     setAnchorElement(null)
   }
+  console.log('userid', userInfo.user)
+  console.log('pic', picture)
 
   return (
     <>
@@ -167,7 +172,7 @@ function Main () {
           <Typography>Olá {userName} :)</Typography>
 
           <IconButton color='inherit' onClick={handleOpenMenu}>
-            <AccountCircle />
+            <Avatar src={picture} />
           </IconButton>
 
           <Menu
