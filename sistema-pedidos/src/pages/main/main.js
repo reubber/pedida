@@ -50,6 +50,47 @@ const PaperPizza = styled(Paper)`
   align-items: center;
   padding: 20px 0;
 `
+const Pizza = styled.div`
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  justify-content: center;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  position: relative;
+
+  &::before,
+  &::after{
+    background: #ccc;
+    content: '';
+    position: absolute;
+    transform: rotate(45deg)
+  }
+
+  &::before {
+    height: 1px;
+    width: 160px;
+  }
+
+  &::after {
+    height: 160px;
+    width: 1px;
+  }
+`
+const PizzaText = styled(Typography).attrs({
+  variant: 'h5'
+})`
+  align-items: center;
+  background: #fff;
+  display: flex;
+  height: 80px;
+  justify-content: center;
+  width: 80px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+`
 
 const style = (theme) => {
   return {
@@ -137,11 +178,15 @@ function Main () {
           </Typography>
         </Grid>
 
-        <Grid container spacing={10}>
+        <Grid container spacing={5}>
           {PizzaSizes.map((pizza) => (
             <Grid item key={pizza.id} xs={4}>
               <PaperPizza>
-                <div>{pizza.size}cm</div>
+                <Pizza>
+                  <PizzaText>
+                    {pizza.size}cm
+                  </PizzaText>
+                </Pizza>
                 <Divider />
                 <Typography variant='h5'>{pizza.name}</Typography>
                 <Typography>{pizza.slices} fatias, {pizza.flavours} sabores</Typography>
