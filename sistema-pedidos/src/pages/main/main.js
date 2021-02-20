@@ -161,6 +161,10 @@ function Main () {
   console.log('userid', userInfo.user)
   console.log('pic', picture)
 
+  function singularOrPlural (amount, singular, plural) {
+    return amount === 1 ? singular : plural
+  }
+
   return (
     <>
       <AppBar>
@@ -209,7 +213,11 @@ function Main () {
                 </Pizza>
                 <Divider />
                 <Typography variant='h5'>{pizza.name}</Typography>
-                <Typography>{pizza.slices} fatias, {pizza.flavours} sabores</Typography>
+                <Typography>
+                  {pizza.slices}, {' '}
+                  fatias, {pizza.flavours} {' '}
+                  {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
+                </Typography>
               </PaperPizza>
             </Grid>
           ))}
