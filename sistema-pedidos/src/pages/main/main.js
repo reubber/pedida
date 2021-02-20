@@ -1,21 +1,15 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import {
-  AppBar,
-  Avatar,
   Grid,
-  Toolbar as MaterialUiToolbar,
-  IconButton,
   Typography,
-  Menu,
-  MenuItem,
   Paper,
   withStyles,
   Divider as MaterialDivider
 } from '@material-ui/core'
 
-import { ReactComponent as MainLogo } from 'images/logopedida.svg'
 import { AuthContext } from 'contexts/auth'
+import Header from 'pages/header'
 
 const Title = styled(Typography).attrs({
   gutterBottom: true,
@@ -28,28 +22,9 @@ const Content = styled.main`
   padding: 40px;
 `
 
-const Logo = styled(MainLogo)`
-  width: initial;
-  height: 50px;
-`
-const LogoContainer = styled.div`
-  flex-grow: 1;
-
-  & path {
-    fill: #000;
-  }
-  & line {
-    stroke: #000;
-  }
-`
 const Divider = styled(MaterialDivider)`
   margin: 20px 0;
   width: 100%;
-`
-const Toolbar = styled(MaterialUiToolbar)`
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
 `
 
 const PizzasGrid = styled(Grid).attrs({
@@ -145,21 +120,10 @@ const PizzaSizes = [
 ]
 
 function Main () {
-  const [anchorElement, setAnchorElement] = useState(null)
-  const { userInfo, logout, token } = useContext(AuthContext)
+  const { userInfo } = useContext(AuthContext)
   const userName = userInfo.user.displayName.split(' ')[0]
-  const a = userInfo.user.photoURL
-  const picture = `${a}?access_token=${token}`
 
-  const handleOpenMenu = (e) => {
-    setAnchorElement(e.target)
-  }
-
-  const handleClose = () => {
-    setAnchorElement(null)
-  }
   console.log('userid', userInfo.user)
-  console.log('pic', picture)
 
   function singularOrPlural (amount, singular, plural) {
     return amount === 1 ? singular : plural
@@ -167,28 +131,7 @@ function Main () {
 
   return (
     <>
-      <AppBar>
-        <Toolbar>
-          <LogoContainer>
-            <Logo />
-          </LogoContainer>
-
-          <Typography>Olá {userName} :)</Typography>
-
-          <IconButton color='inherit' onClick={handleOpenMenu}>
-            <Avatar src={picture} />
-          </IconButton>
-
-          <Menu
-            open={Boolean(anchorElement)}
-            onClose={handleClose}
-            anchorEl={anchorElement}
-          >
-            <MenuItem onClick={logout}>Sair</MenuItem>
-          </Menu>
-
-        </Toolbar>
-      </AppBar>
+      <Header />
 
       <Spacer />
 
