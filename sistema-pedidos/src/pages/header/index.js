@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { ReactComponent as MainLogo } from 'images/logopedida.svg'
@@ -37,12 +37,17 @@ const Toolbar = styled(MaterialUiToolbar)`
 
 const Header = () => {
   const [anchorElement, setAnchorElement] = useState(null)
-  const { logout, token } = useContext(AuthContext)
-  const { userInfo } = useContext(AuthContext)
 
-  const a = userInfo.user.photoURL
-  const picture = `${a}?access_token=${token}`
+  const { userInfo, logout } = useContext(AuthContext)
+  const [picture, setPicture] = useState('')
+
   const userName = userInfo.user.displayName.split(' ')[0]
+
+  useEffect(() => {
+    setPicture(
+      window.localStorage.getItem('image')
+    )
+  }, [])
 
   const handleOpenMenu = (e) => {
     setAnchorElement(e.target)

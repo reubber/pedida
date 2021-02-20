@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useState } from 'react'
+import React, { createContext, useCallback, useState, useEffect } from 'react'
 import firebase from 'services/firebase'
 import PropTypes from 'prop-types'
 
@@ -33,6 +33,12 @@ function Auth ({ children }) {
       // An error happened.
     })
   }, [])
+
+  useEffect(() => {
+    if (userInfo.user !== null && token) {
+      window.localStorage.setItem('image', `${userInfo.user.photoURL}?access_token=${token}`)
+    }
+  }, [userInfo])
 
   return (
     <AuthContext.Provider value={{
